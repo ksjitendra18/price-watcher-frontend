@@ -14,9 +14,12 @@ export default function Home() {
         </p>
 
         <div className="flex mt-5 gap-5 md:flex-row flex-col">
-          <button className="bg-primary text-white px-7 py-2 rounded-lg">
+          <Link
+            href="/predict"
+            className="bg-primary text-white px-7 py-2 rounded-lg"
+          >
             Predict the price
-          </button>
+          </Link>
           <Link
             href="/watchlist"
             className="bg-primary text-white px-7 py-2 rounded-lg"

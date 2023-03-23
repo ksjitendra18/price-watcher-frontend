@@ -1,6 +1,6 @@
 export default interface Product {
   name: string;
   price: number;
-  url: string;
+  link: string;
   imageUrl?: string;
 }

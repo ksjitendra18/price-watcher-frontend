@@ -7,50 +7,62 @@ import Loading from "./loadingSpinner";
 import { URL } from "../utils/url";
 import Product from "../types/Product";
 import ScrapeResponseData from "../types/ScrapeResponseData";
+import Cookies from "js-cookie";
+import Link from "next/link";
 
 export default function Form() {
   const productUrlRef = useRef<HTMLInputElement>(null);
+
   const [productData, setProductData] = useState<Product | null>();
+
   const [productDataProvider, setProductDataProvider] = useState<
     string | null
   >();
+  const [productSavedId, setProductSavedId] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const cookie = Cookies.get("auth-token");
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setProductData(null);
     setProductDataProvider(null);
+    setProductSavedId("");
+
     setLoading(true);
     const userInput = productUrlRef.current!.value;
-
+    console.log("cookie are", cookie);
     if (userInput.includes("amazon")) {
       const res = await fetch(`${URL}/scrape/amazon`, {
         method: "post",
-        headers: { "Content-Type": " application/json" },
+        headers: { "Content-Type": " application/json", authtoken: cookie! },
+
         body: JSON.stringify({ url: userInput }),
       });
 
       const resData: ScrapeResponseData = await res.json();
       setProductData(resData.productData);
       setProductDataProvider(resData.provider);
+      setProductSavedId(resData.savedItemId.itemId);
     } else if (userInput.includes("flipkart")) {
       const res = await fetch(`${URL}/scrape/flipkart`, {
         method: "post",
-        headers: { "Content-Type": " application/json" },
+        headers: { "Content-Type": " application/json", authtoken: cookie! },
         body: JSON.stringify({ url: userInput }),
       });
 
       const resData: ScrapeResponseData = await res.json();
       setProductDataProvider(resData.provider);
       setProductData(resData.productData);
-      console.log("product provider", resData.provider);
+      setProductSavedId(resData.savedItemId.itemId);
     } else {
+      setLoading(false);
       return;
     }
 
     setLoading(false);
   }
 
-  console.log("product data is", productData);
+  console.log("product data is", productSavedId);
   return (
     <>
       <form
@@ -95,7 +107,7 @@ export default function Form() {
         </>
       ) : null} */}
       {productData ? (
-        <div className="mt-5 w-full flex flex-col md:flex-row items-center  gap-10">
+        <div className="mt-10 md:mt-16 w-full flex flex-col md:flex-row items-center  gap-10">
           <div>
             {productData.imageUrl ? (
               <Image
@@ -119,11 +131,14 @@ export default function Form() {
             </p>
 
             <div className="mt-10 flex flex-col md:flex-row gap-5 items-center md:justify-start justify-between">
-              <button className="bg-primary text-white rounded-lg px-5 py-2">
+              <Link
+                href={`/watchlist/${productSavedId}`}
+                className="bg-primary text-white rounded-lg px-5 py-2"
+              >
                 Go to this watchlist
-              </button>
+              </Link>
               <a
-                href={productData.url}
+                href={productData.link}
                 className="ml-5 bg-primary text-white rounded-lg px-5 py-2"
               >
                 Buy Now from {productDataProvider}

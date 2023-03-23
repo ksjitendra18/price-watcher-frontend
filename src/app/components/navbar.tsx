@@ -19,7 +19,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={` text-[18px] text-black h-[50px] md:h-[80px] sticky `}>
+    <header className={`text-[18px] text-black h-[50px] md:h-[80px] sticky `}>
       <div className="header relative  py-2 md:py-4 px-5 md:px-11 flex justify-between items-center">
         {/* <h1 className={`${dmSans.className} font-bold text-3xl`}> */}
         <h1 className="font-bold text-2xl md:text-3xl">
@@ -32,9 +32,14 @@ export default function Navbar() {
               <Link href="/">Home</Link>
             </li>
             {user ? (
-              <li>
-                <Link href="/watchlist">Watchlist</Link>
-              </li>
+              <>
+                <li>
+                  <Link href="/predict">Predict</Link>
+                </li>
+                <li>
+                  <Link href="/watchlist">Watchlist</Link>
+                </li>
+              </>
             ) : null}
           </ul>
 

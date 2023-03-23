@@ -6,7 +6,6 @@ export default async function checkAuth() {
 
   console.log("check auth", authToken);
   const res = await fetch(`${URL}/auth/status`, {
-    method: "post",
     headers: { "auth-token": authToken! },
   });
   const resData = await res.json();
