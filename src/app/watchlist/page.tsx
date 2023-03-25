@@ -15,9 +15,9 @@ export default function Watchlist() {
 
   const [allWatchList, setAllWatchList] = useState<WatchlistType[]>([]);
 
-  if (!user) {
-    router.replace("/");
-  }
+  // if (!user) {
+  //   router.replace("/");
+  // }
 
   const fetchAllWatchlist = async () => {
     const authToken = Cookies.get("auth-token");

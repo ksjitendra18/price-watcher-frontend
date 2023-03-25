@@ -6,5 +6,8 @@ export interface WatchlistType {
   itemUrl: string;
   itemProvider: string;
   itemPrice: number;
+  itemPreviousPrice: number;
+  itemLowestPrice: number;
+  itemHighestPrice: number;
   userId: string;
 }

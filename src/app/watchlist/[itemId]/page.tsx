@@ -73,12 +73,35 @@ export default function IndividualItem({
             <span className="font-semibold text-xl">Name: </span>{" "}
             {watchListData?.itemName}
           </p>
-          <p className="text-xl mt-3">
-            <span className="font-semibold">Price: </span>{" "}
-            {/* {productData?.price} */}
-            &#8377;
-            {new Intl.NumberFormat("en-IN").format(watchListData?.itemPrice!)}
-          </p>
+
+          <div className="flex gap-5 items-center">
+            <p className="text-xl mt-3">
+              <span className="font-semibold">Price: </span>{" "}
+              {/* {productData?.price} */}
+              &#8377;
+              {new Intl.NumberFormat("en-IN").format(watchListData?.itemPrice!)}
+            </p>
+            {watchListData.itemPrice < watchListData.itemPreviousPrice ? (
+              <>
+                <p className="text-xl mt-3 line-through">
+                  (&#8377;
+                  {new Intl.NumberFormat("en-IN").format(
+                    watchListData?.itemPreviousPrice!
+                  )}
+                  )
+                </p>
+
+                <p className="text-xl font-semibold mt-3 text-green-500">
+                  {(
+                    100 -
+                    (watchListData.itemPrice /
+                      watchListData.itemPreviousPrice) *
+                      100
+                  ).toFixed(2) + "% Reduced"}
+                </p>
+              </>
+            ) : null}
+          </div>
 
           <div className="mt-8">
             <a

@@ -7,13 +7,33 @@ export default function WatchListCard({
 }: {
   watchlist: WatchlistType;
 }) {
+  console.log(
+    "watclist is",
+    watchlist.itemId,
+    watchlist.itemPrice < watchlist.itemPreviousPrice
+  );
   return (
     <Link
       href={`/watchlist/${watchlist.itemId}`}
       className=" bg-primary text-white rounded-lg px-4 py-2 flex items-center md:justify-between"
     >
       <p>{watchlist.itemName.substring(0, 60) + "..."}</p>
-      <p>&#8377;{new Intl.NumberFormat("en-IN").format(watchlist.itemPrice)}</p>
+
+      <div className="flex items-center gap-5">
+        {watchlist.itemPrice < watchlist.itemPreviousPrice ? (
+          <p className="bg-green-300 rounded-md text-sm text-gray-700 font-bold px-2 ">
+            Price Dropped
+          </p>
+        ) : null}
+        {watchlist.itemPrice > watchlist.itemPreviousPrice ? (
+          <p className="bg-red-300 rounded-md text-sm font-bold text-black px-2 ">
+            Price Increased
+          </p>
+        ) : null}
+        <p>
+          &#8377;{new Intl.NumberFormat("en-IN").format(watchlist.itemPrice)}
+        </p>
+      </div>
     </Link>
   );
 }

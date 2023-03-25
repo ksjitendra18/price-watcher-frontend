@@ -16,6 +16,7 @@ import {
 import FormInput from "./formInput";
 import FormSelect from "./formSelect";
 import Loading from "../components/loadingSpinner";
+import { URL } from "../utils/url";
 
 interface FormFields {
   company: string;
@@ -56,7 +57,8 @@ export default function PredictForm() {
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/prediction", {
+      const res = await fetch(`${URL}/predict`, {
+        // const res = await fetch(`http://localhost:8080/api/prediction`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
